@@ -35,7 +35,7 @@ function renderError() {
 
 /*================generate page functions================*/
 
-function generateDetailView() {
+function generateDetailView(item) {
 
 
   return `
@@ -43,10 +43,10 @@ function generateDetailView() {
     <form class = "deleteButton">
       <button id="delete" type="button">Remove Bookmark</button>
     </form>
-    <h2>${myStore[i].title}</h2>
-    <a href="${myStore[i].URL}"  target="_blank">visit this page</a>
+    <h2>${item.title}</h2>
+    <a href="${item.URL}"  target="_blank">visit this page</a>
 
-    <span>${myStore[i].rating}</span>
+    <span>${item.rating}</span>
 
     <form class="expandButton">
     <button id="expand" type="button">See more</button>
@@ -62,16 +62,14 @@ function generateDetailView() {
 function generateHeader() {
   return `
   <div class="pageOptions">
-    <form class="filterMenu">
-        <select id="filterResults" name="filterResults">
-          <option value="">Filter results...</option>
-          <option value="1 star">1+ stars</option>
-          <option value="2 star">2+ stars</option>
-          <option value="3 star">3+ stars</option>
-          <option value="4 star">4+ stars</option>
-          <option value="5 star">5 stars</option>
-        </select>
-      </form>
+    <select name="filter" id="filter" class="filter">
+    <option>Filter</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    </select>
 
 
       <form class="newBookmark">
@@ -82,14 +80,14 @@ function generateHeader() {
 
 function generateNewBookmarkForm() {
   return `<form class="filterMenu">
-      <select id="filterResults" name="filterResults">
-        <option value="">Filter results...</option>
-        <option value="1 star">1+ stars</option>
-        <option value="2 star">2+ stars</option>
-        <option value="3 star">3+ stars</option>
-        <option value="4 star">4+ stars</option>
-        <option value="5 star">5 stars</option>
-      </select>
+  <select name="filter" id="filter" class="filter">
+  <option>Filter</option>
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  </select>
     </form>
 
   <div class="addBookmark"
@@ -102,13 +100,13 @@ function generateNewBookmarkForm() {
     <label for="description">Description:</label>
     <input type="text"  class="description" name="description">
 
-    <select class="newRating" name="newRating">
-      <option value="">Rating:</option>
-      <option value="1">1 stars</option>
-      <option value="2">2 stars</option>
-      <option value="3">3 stars</option>
-      <option value="4">4 stars</option>
-      <option value="5">5 stars</option>
+    <select name="rating" id="rating" class="rating">
+    <option>Filter</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
     </select>
 
     <button type="button" class="submitNew">submit</button>
@@ -116,7 +114,7 @@ function generateNewBookmarkForm() {
   </div>`
 }
 
-function generateBookmarkView(item){
+function generateBookmarks(item){
   console.log(item);
   return `
   <div class="condensed">
@@ -139,7 +137,7 @@ function generateBookmarkView(item){
 function generateListView() {
   let myStore = (store.store.bookmarks);
   const newStore = myStore.map(bookmark=>
-  generateBookmarkView(bookmark))
+  generateBookmarks(bookmark))
   console.log(myStore);
   return newStore.join('');
 }
@@ -158,7 +156,7 @@ function handleNewBookmark() {
 }
 
 
-function handleSubmitAddNewBookmark() {
+function handleSubmitNewBookmark() {
   $('header').on('click', '.submitNew', event => {
     event.preventDefault();
     //add description and rating
@@ -190,7 +188,12 @@ function handleDeleteBookmark() {
     }
 
 
-function handleFilterView() {
+function handleFilter() {
+  $('.filter').on("change", function(){
+    let filter=$('#filter option:selected').val();
+    store.store.filter = filter;
+    render();
+  })
     }
 
 /*================pack up and export================*/
@@ -198,8 +201,8 @@ function handleFilterView() {
 const bindEventListeners = function () {
     handleNewBookmark();
     handleDeleteBookmark();
-    handleFilterView();
-    handleSubmitAddNewBookmark();
+    handleFilter();
+    handleSubmitNewBookmark();
   };
 
   export default {

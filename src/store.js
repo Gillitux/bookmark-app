@@ -1,7 +1,5 @@
 const store = {
-  bookmarks: [
-    //new error form goes here
-  ],
+  bookmarks: [],
   adding: false,
   error: null,
   filter: 0
