@@ -1,36 +1,87 @@
+/* eslint-disable no-console */
 import $ from 'jquery';
 import store from './store';
+import api from './api';
 
-function generateDetailView (){
+
+
+
+function render() {
+  if (store.store.adding) {
+    let html = generateListView();
+    let headerHtml = generateNewBookmarkForm();
+    $('header').html(headerHtml);
+    $('main').html(html);
+  } else {
+    let html = generateListView();
+    let headerHtml = generateHeader();
+    $('header').html(headerHtml);
+    $('main').html(html);
+  }
+}
+
+$.fn.extend({
+  serializeJson: function () {
+    const formData = new FormData(this[0]);
+    const o = {};
+    formData.forEach((val, name) => o[name] = val);
+    return JSON.stringify(o);
+  }
+});
+
+function renderError() {
 
 }
 
+/*================generate page functions================*/
 
-function addBookmark(){
-
-}
-
+function generateDetailView() {
 
 
+  return `
+  <div class="expanded">
+    <form class = "deleteButton">
+      <button id="delete" type="button">Remove Bookmark</button>
+    </form>
+    <h2>${myStore[i].title}</h2>
+    <a href="${myStore[i].URL}"  target="_blank">visit this page</a>
 
-function handleDeleteBookmark (){
-  $('.deleteButton').on('click', '#delete', e=>
+    <span>${myStore[i].rating}</span>
+
+    <form class="expandButton">
+    <button id="expand" type="button">See more</button>
+    </form>
+
+  </div>
   
-    console.log('i am listening')
-  );
-}
-
-
-function handleFilterView (){
+  <hr>`;
 
 }
 
-function generateBookmarksView() {
-  let myStore = $(store.store.bookmarks);
-  for (let i = 0; i < myStore.length; i++)
-    return `<div class="staticHeader">
-    
-    <form id="filter">
+
+function generateHeader() {
+  return `
+  <div class="pageOptions">
+    <form class="filterMenu">
+        <select id="filterResults" name="filterResults">
+          <option value="">Filter results...</option>
+          <option value="1 star">1+ stars</option>
+          <option value="2 star">2+ stars</option>
+          <option value="3 star">3+ stars</option>
+          <option value="4 star">4+ stars</option>
+          <option value="5 star">5 stars</option>
+        </select>
+      </form>
+
+
+      <form class="newBookmark">
+      <button class="createNew" type="button">Create New Bookmark</button>
+      </form>
+      </div>`;
+}
+
+function generateNewBookmarkForm() {
+  return `<form class="filterMenu">
       <select id="filterResults" name="filterResults">
         <option value="">Filter results...</option>
         <option value="1 star">1+ stars</option>
@@ -41,50 +92,117 @@ function generateBookmarksView() {
       </select>
     </form>
 
-
+  <div class="addBookmark"
     <form id="newBookmark">
-    <button id="createNew" type="submit">Create New Bookmark</button>
+
+    <label for="title">Title:</label>
+    <input type="text"  class="title" name="title">
+    <label for="newUrl">URL:</label>
+    <input type="text"  class="newUrl" name="newUrl">
+    <label for="description">Description:</label>
+    <input type="text"  class="description" name="description">
+
+    <select class="newRating" name="newRating">
+      <option value="">Rating:</option>
+      <option value="1">1 stars</option>
+      <option value="2">2 stars</option>
+      <option value="3">3 stars</option>
+      <option value="4">4 stars</option>
+      <option value="5">5 stars</option>
+    </select>
+
+    <button type="button" class="submitNew">submit</button>
     </form>
-
-    </div>
-
-    <hr>
-
-    <div class="condensed">
-      <form class = "deleteButton">
-        <button id="delete">Remove Bookmark</button>
-      </form>
-      <h2>${myStore[i].title}</h2>
-      <a href="${myStore[i].URL}"  target="_blank">visit this page</a>
-      <span>${myStore[i].rating}</span>
-
-      <form class="expandButton">
-      <button id="expand">See more</button>
-      </form>
-
-    </div>
-    
-    <hr>`;
+  </div>`
 }
 
+function generateBookmarkView(item){
+  console.log(item);
+  return `
+  <div class="condensed">
+    <form class = "deleteButton">
+      <button id="delete" type="button">Remove Bookmark</button>
+    </form>
+    <h2>${item.title}</h2>
+    <span>${item.rating}</span>
+
+    <form class="expandButton">
+    <button id="expand" type="button">See more</button>
+    </form>
+
+  </div>
+  
+  <hr>`;
+}
+
+
+function generateListView() {
+  let myStore = (store.store.bookmarks);
+  const newStore = myStore.map(bookmark=>
+  generateBookmarkView(bookmark))
+  console.log(myStore);
+  return newStore.join('');
+}
+
+
+/*================event handlers================*/
+
+
 function handleNewBookmark() {
-  $('main').on('submit', '#createNew', event => {
-    event.preventDefault();
-    console.log("hello");
+  $('header').on('click', '.createNew', event => {
+    store.store.adding = true;
     render();
+    console.log('hello');
+    //event.currentTarget.serializeJson();
   });
 }
 
-function render() {
-  let html = generateBookmarksView();
-  $('main').html(html);
+
+function handleSubmitAddNewBookmark() {
+  $('header').on('click', '.submitNew', event => {
+    event.preventDefault();
+    //add description and rating
+    let newBookmark = { title: $('.title').val(), url: $('.newUrl').val(), desc: $('.description').val(), rating: $('.newRating').val()}
+    console.log(newBookmark);
+    
+    
+    //get form elements by id or class, then do .val()
+    //build up bookmark object with those values
+    api.createBookmark(JSON.stringify(newBookmark))
+      .then(response => {
+        if (response.message) {
+          store.setError(true);
+          renderError();
+        }
+        else {
+          store.setError(null)
+          store.addBookmark(response)
+          store.store.adding = !store.store.adding
+          render();
+        }
+      })
+  })
 }
 
-const bindEventListeners = function () {
-  handleNewBookmark();
-};
+function handleDeleteBookmark() {
 
-export default {
-  bindEventListeners,
-  render
-};
+
+    }
+
+
+function handleFilterView() {
+    }
+
+/*================pack up and export================*/
+
+const bindEventListeners = function () {
+    handleNewBookmark();
+    handleDeleteBookmark();
+    handleFilterView();
+    handleSubmitAddNewBookmark();
+  };
+
+  export default {
+    bindEventListeners,
+    render
+  };

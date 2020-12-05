@@ -1,12 +1,24 @@
 header{
   display: flex;
   text-align: center;
-  justify-content: center;
-  flex-direction: column;
-
+  justify-content: space-evenly;
+  flex-direction: row;
   padding: 10px;
+  margin-top: 20px;
+  border-bottom: solid 1px;
 
 }
+
+.pageOptions{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.newBookmark{
+  margin-top: 10px;
+}
+
 
 header h1{
   margin-bottom: 0;
@@ -28,7 +40,7 @@ hr{
 }
 
 
-.staticHeader{
+#staticHeader{
   display: flex;
   justify-content: space-evenly;
   padding: 10px 0 0 30px;
@@ -55,4 +67,13 @@ hr{
 
 #expand{
   font-size: 80%
+}
+
+
+#newBookmark{
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  border: solid 1px;
+  padding: 20px;
 }
