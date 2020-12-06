@@ -1,4 +1,4 @@
-https://gillitux.github.io/bookmark-app/
+https://gillitux.github.io/bookmark-app/dist
 
 
 User Stories
