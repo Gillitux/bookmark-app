@@ -70,6 +70,11 @@ hr{
 }
 
 
+.formButtons{
+  display: flex;
+  justify-content: right;
+}
+
 #newBookmark{
   display: flex;
   flex-direction: column;

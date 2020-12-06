@@ -34,6 +34,46 @@ function renderError() {
 }
 
 /*================generate page functions================*/
+function generateListView() {
+  let myStore = (store.store.bookmarks);
+
+  const newStore = myStore.map(bookmark=>
+  generateBookmarks(bookmark))
+  console.log(myStore);
+  return newStore.join('');
+}
+
+
+function generateMain(bookmark){
+  if (bookmark.rating >= store.store.filter){
+    if (!bookmark.expanded){
+      return generateBookmarks
+    }
+    else {
+      return generateDetailView
+    }
+  }
+}
+
+
+function generateBookmarks(item){
+  console.log(item);
+  return `
+  <div class="condensed">
+    <form class = "deleteButton">
+      <button id="delete" type="button">Remove Bookmark</button>
+    </form>
+    <h2>${item.title}</h2>
+    <span>${item.rating}</span>
+
+    <form class="expandButton">
+    <button id="expand" type="button">See more</button>
+    </form>
+
+  </div>
+  
+  <hr>`;
+}
 
 function generateDetailView(item) {
 
@@ -79,68 +119,43 @@ function generateHeader() {
 }
 
 function generateNewBookmarkForm() {
-  return `<form class="filterMenu">
-  <select name="filter" id="filter" class="filter">
-  <option>Filter</option>
-  <option value="1">1</option>
-  <option value="2">2</option>
-  <option value="3">3</option>
-  <option value="4">4</option>
-  <option value="5">5</option>
-  </select>
-    </form>
+  return `
 
   <div class="addBookmark"
     <form id="newBookmark">
-
+    <br>
     <label for="title">Title:</label>
     <input type="text"  class="title" name="title">
     <label for="newUrl">URL:</label>
     <input type="text"  class="newUrl" name="newUrl">
     <label for="description">Description:</label>
     <input type="text"  class="description" name="description">
+    <br>
 
     <select name="rating" id="rating" class="rating">
-    <option>Filter</option>
+    <option>Bookmark Rating</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
     <option value="4">4</option>
     <option value="5">5</option>
     </select>
-
+    <br>
+    <section class="formButtons">
+    <button type="button" class="cancel">cancel</button>
     <button type="button" class="submitNew">submit</button>
+    </section>
+
     </form>
   </div>`
 }
 
-function generateBookmarks(item){
-  console.log(item);
-  return `
-  <div class="condensed">
-    <form class = "deleteButton">
-      <button id="delete" type="button">Remove Bookmark</button>
-    </form>
-    <h2>${item.title}</h2>
-    <span>${item.rating}</span>
-
-    <form class="expandButton">
-    <button id="expand" type="button">See more</button>
-    </form>
-
-  </div>
-  
-  <hr>`;
-}
 
 
-function generateListView() {
-  let myStore = (store.store.bookmarks);
-  const newStore = myStore.map(bookmark=>
-  generateBookmarks(bookmark))
-  console.log(myStore);
-  return newStore.join('');
-}
+
+
+
+
 
 
 /*================event handlers================*/
@@ -155,14 +170,22 @@ function handleNewBookmark() {
   });
 }
 
+function handleCancelNew(){
+  $('header').on('', '.cancel', function(){
+    store.store.adding = !store.store.adding;
+    render();
+    console.log('hello you sexy mf')
+  })
+}
+
+
 
 function handleSubmitNewBookmark() {
   $('header').on('click', '.submitNew', event => {
     event.preventDefault();
     //add description and rating
     let newBookmark = { title: $('.title').val(), url: $('.newUrl').val(), desc: $('.description').val(), rating: $('.newRating').val()}
-    console.log(newBookmark);
-    
+    console.log(newBookmark);    
     
     //get form elements by id or class, then do .val()
     //build up bookmark object with those values
@@ -185,12 +208,20 @@ function handleSubmitNewBookmark() {
 function handleDeleteBookmark() {
 
 
-    }
+}
+
+
+function handleExpandBookmark(){
+  ('main').on('click','#expand', event=>{
+    let thisBookmark = $(event.currentTarget).data('')
+    thisBookmark.expanded = !thisBookmark.expanded
+  })
+}
 
 
 function handleFilter() {
-  $('.filter').on("change", function(){
-    let filter=$('#filter option:selected').val();
+  $('.main').on('change', '.filter', event => {
+    let filter=$('#filter').val();
     store.store.filter = filter;
     render();
   })

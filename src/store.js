@@ -1,3 +1,5 @@
+import bookmarks from "./bookmarks";
+
 const store = {
   bookmarks: [],
   adding: false,
@@ -6,7 +8,6 @@ const store = {
 };
 
 
-console.log(store.bookmarks);
 const findById = function (id) {
   return store.bookmarks.find(currentItem => currentItem.id === id);
 };
@@ -17,8 +18,14 @@ function findAndUpdate(id, newData) {
 }
 
 const addBookmark = function (item) {
+  bookmarks.expanded=false;
   store.bookmarks.push(item);
 };
+
+function toggleExpand(id) {
+  let foundItem = findBookmarkById(id);
+  foundItem.expanded = !foundItem.expanded;
+}
 
 const setError = function (error) {
   store.error = error;
@@ -35,6 +42,7 @@ export default {
   findAndUpdate,
   findAndDelete,
   setError,
+  toggleExpand,
 };
 
 // --for user story "I can remove bookmarks from my bookmark list"
