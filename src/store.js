@@ -24,7 +24,7 @@ const addBookmark = function (item) {
 
 function toggleExpand(id) {
   let foundItem = findBookmarkById(id);
-  foundItem.expanded = !foundItem.expanded;
+  foundItem.isExpanded = !foundItem.isExpanded;
 }
 
 const setError = function (error) {

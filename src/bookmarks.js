@@ -3,9 +3,6 @@ import $ from 'jquery';
 import store from './store';
 import api from './api';
 
-
-
-
 function render() {
   if (store.store.adding) {
     let html = generateListView();
@@ -34,29 +31,33 @@ function renderError() {
 }
 
 /*================generate page functions================*/
+
+//map through all bookmarks in store
+//call generateBookmarksCondensed and join
+
 function generateListView() {
   let myStore = (store.store.bookmarks);
 
   const newStore = myStore.map(bookmark=>
-  generateBookmarks(bookmark))
+  generateBookmarksCondensed(bookmark))
   console.log(myStore);
   return newStore.join('');
 }
 
 
-function generateMain(bookmark){
+f/*unction generateMain(bookmark){
   if (bookmark.rating >= store.store.filter){
     if (!bookmark.expanded){
-      return generateBookmarks
+      return generateBookmarksCondensed
     }
     else {
       return generateDetailView
     }
   }
-}
+}*/
 
-
-function generateBookmarks(item){
+//collapsed view
+function generateBookmarksCondensed(item){
   console.log(item);
   return `
   <div class="condensed">
@@ -171,7 +172,7 @@ function handleNewBookmark() {
 }
 
 function handleCancelNew(){
-  $('header').on('', '.cancel', function(){
+  $('header').on('click', '.cancel', function(){
     store.store.adding = !store.store.adding;
     render();
     console.log('hello you sexy mf')
