@@ -5,6 +5,32 @@ import api from './api';
 
 
 function render() {
+
+
+
+
+  if (store.store.adding) {
+    let html = generateListView([...store.store.bookmarks]);
+    let headerHtml = generateNewBookmarkForm();
+    $('header').html(headerHtml);
+    $('main').html(html);
+    renderError();
+  } else if(store.store.filter!==null){
+    const filteredBookmarks = [...store.store.bookmarks].filter(bmk=>bmk.rating >= parseInt(store.store.filter))
+    let html = generateListView(filteredBookmarks);
+    let headerHtml = generateHeader();
+    $('header').html(headerHtml);
+    $('main').html(html);
+  }
+  else {
+    let html = generateListView([...store.store.bookmarks]);
+    let headerHtml = generateHeader();
+    $('header').html(headerHtml);
+    $('main').html(html);
+    renderError();
+  }
+}
+
 /*  let bookmarks=[];
   if(store.store.filter>0){
     bookmarks=store.store.bookmarks.filter(
@@ -30,23 +56,6 @@ function render() {
 
 }
 */
-
-
-
-  if (store.store.adding) {
-    let html = generateListView();
-    let headerHtml = generateNewBookmarkForm();
-    $('header').html(headerHtml);
-    $('main').html(html);
-    renderError();
-  } else {
-    let html = generateListView();
-    let headerHtml = generateHeader();
-    $('header').html(headerHtml);
-    $('main').html(html);
-    renderError();
-  }
-}
 
 
 $.fn.extend({
@@ -77,8 +86,8 @@ const generateError = function (message) {
 };
 
 /*================generate page functions================*/
-function generateListView() {
-  let myStore = (store.store.bookmarks);
+function generateListView(myStore) {
+  //let myStore = (store.store.bookmarks);
 
   const newStore = myStore.map(bookmark=>
   generateBookmarks(bookmark))
@@ -169,20 +178,20 @@ function generateNewBookmarkForm() {
   
     return `
 
-    <div class="addBookmark"
+    <div class="addBookmark">
       <form id="newBookmark">
       <br>
       <div class="error-message"></div>
       <label for="title">Title:</label>
-      <input type="text"  class="title" name="title"  required>
+      <input type="text"  class="title" name="title" required/>
       <label for="newUrl">URL:</label>
-      <input type="url"  class="newUrl" name="newUrl"  placeholder="https://" required>
+      <input type="url"  class="newUrl" name="newUrl"  placeholder="https://" required/>
       <label for="description">Description:</label>
-      <input type="text"  class="description" name="description">
+      <input type="text"  class="description" name="description"/>
       <br>
 
       <label>
-      <select name="rating" id="rating" class="rating"  >
+      <select name="rating" id="rating" class="rating">
       <option>Bookmark Rating</option>
       <option value="1">1</option>
       <option value="2">2</option>
@@ -193,7 +202,7 @@ function generateNewBookmarkForm() {
       </label>
       <br>
       <section class="formButtons">
-      <input type="submit" class="submitNew"></input>
+      <input type="submit" class="submitNew"/>
       <button type="button" class="cancel">Cancel</button>
       </section>
       
@@ -298,8 +307,9 @@ function handleExpandBookmark(){
 
 
 function handleFilter() {
-  $('#filter').on('change', function(){
+  $('header').on('change', '#filter', function(){
     let filter=$('.filter option:selected').val();
+    console.log(filter);
     store.store.filter = filter;
     render();
   })
