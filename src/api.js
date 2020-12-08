@@ -28,11 +28,7 @@ const getBookmark = function () {
 
 const deleteBookmark = function (id) {
   return listApiFetch(`${BASE_URL}/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: updateData,
+    method: 'DELETE'
   });
 };
 

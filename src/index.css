@@ -82,3 +82,16 @@ hr{
   border: solid 1px;
   padding: 20px;
 }
+
+.error-content{
+  background-color: red;
+  color: white;
+}
+
+.error-content p{
+  margin: 0;
+}
+
+.hidden{
+  display: none;
+}

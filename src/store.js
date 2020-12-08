@@ -23,8 +23,8 @@ const addBookmark = function (item) {
 };
 
 function toggleExpand(id) {
-  let foundItem = findBookmarkById(id);
-  foundItem.isExpanded = !foundItem.isExpanded;
+  let foundItem = findById(id);
+  foundItem.expanded = !foundItem.expanded;
 }
 
 const setError = function (error) {
