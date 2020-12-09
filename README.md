@@ -32,31 +32,20 @@ User can add bookmarks to bookmark list. Bookmarks contain:
 •  User can select from a dropdown (a <select> element) a "minimum rating" to filter the list by all bookmarks rated at or above the chosen selection.
 Use namespacing to adhere to good architecture practices
 
-Minimal global variables
-Create modules in separate files to organize your code
-Logically group your functions (e.g. API methods, store methods...)
-Keep your Data out of the DOM
 
-No direct DOM manipulation in your event handlers!
-Follow the React-ful design pattern - change your state, re-render your component
-Use semantic HTML
+## Technical Requirements
+•  Minimal global variables
+•  Create modules in separate files to organize your code
+•  Logically group your functions (e.g. API methods, store methods...)
+•  Keep your Data out of the DOM
 
-Use a responsive and mobile-first design
+•  No direct DOM manipulation in your event handlers!
+•  Follow the React-ful design pattern - change your state, re-render your component
+•  Use semantic HTML
 
-Visually and functionally solid in viewports for mobile and desktop
-Follow a11y best practices
+•  Use a responsive and mobile-first design
 
-Refer back to the accessibility checklist and the lesson on forms
+•  Visually and functionally solid in viewports for mobile and desktop
+•  Follow a11y best practices
 
-
-
-
-Fulfill every non-extension user story below
-Fulfill every non-extension technical requirement below
-
-For successful submission, you MUST:
-
-  -Push your final version to the gh-pages branch of your repo. Your repo should be inside the cohort's organization and named [yourname]-bookmarks-app.
-  -Add the live GH Pages link to the header of your repo.
-  -Create a README.md file that contains a full list of all user stories completed.
-  -Submit the repo URL at the bottom of this page.
+•  Refer back to the accessibility checklist and the lesson on forms
