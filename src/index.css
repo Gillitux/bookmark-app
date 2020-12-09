@@ -5,16 +5,21 @@ header{
   flex-direction: column;
   padding: 10px;
   margin-top: 20px;
-  border-bottom: solid 1px;
   align-items: center;
+  border: solid 1px;
+  border-radius: 20px;
+  margin: 10px;
 }
 
 main{
   border: solid 1px;
-  margin: 10px 100px 10px 100px;
+  margin: 10px;
   border-radius: 20px;
 }
 
+body{
+  font-family: 'Tillana', cursive;
+}
 
 .pageOptions{
   display: flex;
@@ -36,28 +41,40 @@ header h1{
   flex-direction: column;
   text-align: center;
   padding-top: 10px;
-  margin: 0 80px 0 80px;
 }
 
 hr{
   width: 75%;
 }
+
+fieldset{
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+}
+
+
 .condensed h2{
   margin: auto;
+  width: 80%;
 }
 
 .expand{
-  width: 25%;
   align-self: center;
 }
 
 .expandButton{
-  margin-bottom: 10px;
+  margin: 10px 0 10px 0;
+
 }
 
+.expanded{
+  margin-top: 10px;
+}
 .deleteButton{
-  text-align: right;
-  margin-right: 10px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .delete{
@@ -68,7 +85,9 @@ hr{
   font-size: 80%
 }
 
-
+a{
+  margin-top: 10px;
+}
 .formButtons{
   display: flex;
   justify-content: space-around;
@@ -77,9 +96,6 @@ hr{
 #newBookmark{
   display: flex;
   flex-direction: column;
-  width: 400px;
-  border: solid 1px;
-  padding: 20px;
 }
 
 .error-content{
@@ -105,5 +121,21 @@ input{
   border-radius: 10px;
 }
 
-header form{
-  }
+
+@media all and (min-width: 600px){
+header{
+  margin: 10px 100px 10px 100px;
+}
+main{
+  margin: 10px 100px 10px 100px;
+}
+fieldset{
+  margin: 0;
+  width: 500px;
+}
+
+body{
+  font-size: 150%
+}
+
+}

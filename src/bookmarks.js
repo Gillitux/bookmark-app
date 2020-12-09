@@ -2,28 +2,27 @@ import $ from 'jquery';
 import store from './store';
 import api from './api';
 
-
 function render() {
+  let html;
+  let headerHtml;
   if (store.store.adding) {
-    let html = generateMain([...store.store.bookmarks]);
-    let headerHtml = generateNewBookmarkForm();
-    $('header').html(headerHtml);
-    $('main').html(html);
+    html = generateMain([...store.store.bookmarks]);
+    headerHtml = generateNewBookmarkForm();
     renderError();
   } else if (store.store.filter !== null) {
     const filteredBookmarks = [...store.store.bookmarks].filter(bmk => bmk.rating >= parseInt(store.store.filter))
-    let html = generateMain(filteredBookmarks);
-    let headerHtml = generateHeader();
-    $('header').html(headerHtml);
-    $('main').html(html);
-  }
-  else {
-    let html = generateMain([...store.store.bookmarks]);
-    let headerHtml = generateHeader();
-    $('header').html(headerHtml);
-    $('main').html(html);
+    html = generateMain(filteredBookmarks);
+    headerHtml = generateHeader();
     renderError();
   }
+  else {
+    html = generateMain([...store.store.bookmarks]);
+    headerHtml = generateHeader();
+    renderError();
+  }
+  $('header').html(headerHtml);
+  $('main').html(html);
+  renderError();
 }
 
 $.fn.extend({
@@ -43,9 +42,6 @@ const renderError = function () {
     $('.error-message').empty();
   }
 };
-
-
-
 
 /*================generate page functions================*/
 function generateMain(myStore) {
@@ -78,12 +74,11 @@ function generateBookmarks(item) {
   <hr>`;
 }
 
-
 function generateHeader() {
   return `
   <h1>My Bookmarks</h1>
   <div class="pageOptions">
-    <label>
+    <label for="filter">
     <select name="filter" id="filter" class="filter">
     <option>Filter</option>
     <option value="1">1</option>
@@ -105,6 +100,8 @@ function generateNewBookmarkForm() {
 
     <div class="addBookmark">
       <form id="newBookmark">
+      <fieldset> 
+      <legend>New Bookmark</legend>
       <br>
       <div class="error-message"></div>
       <label for="title">Title:</label>
@@ -127,10 +124,11 @@ function generateNewBookmarkForm() {
       </label>
       <br>
       <section class="formButtons">
-      <input type="submit" class="submitNew"/>
       <button type="submit" class="cancel">Cancel</button>
+      <input type="submit" class="submitNew"/>
       </section>
-      
+      </legend>
+      </fieldset>
       </form>
   
     </div>`
@@ -143,6 +141,7 @@ const generateError = function (message) {
         </section>
       `;
 };
+
 /*================event handlers================*/
 
 
@@ -152,7 +151,6 @@ function handleNewBookmark() {
     render();
   });
 }
-
 
 function handleSubmitNewBookmark() {
   $('header').on('submit', 'form#newBookmark', event => {
@@ -207,24 +205,24 @@ function handleCancelNew() {
     render();
   })
 }
+
 function handleExpandBookmark() {
   $('main').on('click', '.expand', event => {
     const id = getItemIdFromElement(event.currentTarget);
     const thisBookmark = store.findById(id);
     if (thisBookmark)
-
-
       thisBookmark.expanded = !thisBookmark.expanded;
     render();
   })
 }
-
 
 function handleFilter() {
   $('header').on('change', '#filter', function () {
     let filter = $('.filter option:selected').val();
     store.store.filter = filter;
     render();
+    $('#filter').val(store.store.filter)
+
   })
 }
 
