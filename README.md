@@ -1,5 +1,3 @@
-
-
 # Bookmark App
 [Live Github](https://gillitux.github.io/bookmark-app/dist "Live Page")  
   
