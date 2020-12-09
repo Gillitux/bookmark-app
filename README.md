@@ -34,18 +34,18 @@ Use namespacing to adhere to good architecture practices
 
 
 ## Technical Requirements
-•  Minimal global variables
-•  Create modules in separate files to organize your code
-•  Logically group your functions (e.g. API methods, store methods...)
-•  Keep your Data out of the DOM
+•  Minimal global variables <br>
+•  Create modules in separate files to organize your code<br>
+•  Logically group your functions (e.g. API methods, store methods...)<br>
+•  Keep your Data out of the DOM<br>
 
-•  No direct DOM manipulation in your event handlers!
-•  Follow the React-ful design pattern - change your state, re-render your component
-•  Use semantic HTML
+•  No direct DOM manipulation in your event handlers!<br>
+•  Follow the React-ful design pattern - change your state, re-render your component<br>
+•  Use semantic HTML<br>
 
-•  Use a responsive and mobile-first design
+•  Use a responsive and mobile-first design<br>
 
-•  Visually and functionally solid in viewports for mobile and desktop
-•  Follow a11y best practices
+•  Visually and functionally solid in viewports for mobile and desktop<br>
+•  Follow a11y best practices<br>
 
-•  Refer back to the accessibility checklist and the lesson on forms
+•  Refer back to the accessibility checklist and the lesson on forms<br>
