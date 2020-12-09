@@ -44,11 +44,3 @@ export default {
   setError,
   toggleExpand,
 };
-
-// --for user story "I can remove bookmarks from my bookmark list"
-//filters through the bookmarks in the store
-//creates a new array containing all items that are not equal to the current item.
-/*const findAndDelete = function (bookmark) {
-  store.store.bookmarks = store.store.bookmarks.filter(currentItem => currentItem.title !== bookmark);
-};
-*/

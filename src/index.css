@@ -2,12 +2,19 @@ header{
   display: flex;
   text-align: center;
   justify-content: space-evenly;
-  flex-direction: row;
+  flex-direction: column;
   padding: 10px;
   margin-top: 20px;
   border-bottom: solid 1px;
-
+  align-items: center;
 }
+
+main{
+  border: solid 1px;
+  margin: 10px 100px 10px 100px;
+  border-radius: 20px;
+}
+
 
 .pageOptions{
   display: flex;
@@ -23,13 +30,13 @@ header{
 header h1{
   margin-bottom: 0;
 }
+
 .condensed{
   display: flex;
   flex-direction: column;
   text-align: center;
   padding-top: 10px;
   margin: 0 80px 0 80px;
-  
 }
 
 hr{
@@ -39,15 +46,7 @@ hr{
   margin: auto;
 }
 
-
-#staticHeader{
-  display: flex;
-  justify-content: space-evenly;
-  padding: 10px 0 0 30px;
-  margin: 0 0 0 15px;
-}
-
-#expand{
+.expand{
   width: 25%;
   align-self: center;
 }
@@ -61,18 +60,18 @@ hr{
   margin-right: 10px;
 }
 
-#delete{
+.delete{
   font-size: 60%;
 }
 
-#expand{
+.expand{
   font-size: 80%
 }
 
 
 .formButtons{
   display: flex;
-  justify-content: right;
+  justify-content: space-around;
 }
 
 #newBookmark{
@@ -95,3 +94,16 @@ hr{
 .hidden{
   display: none;
 }
+
+button{
+  background-color: white;
+  border-radius: 10px;
+}
+
+input{
+  background-color: white;
+  border-radius: 10px;
+}
+
+header form{
+  }

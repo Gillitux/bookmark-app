@@ -13,7 +13,6 @@ import store from './store';
 const main = function () {
   api.getBookmark()
     .then((items) => {
-      console.log(items);
       items.forEach((item) => store.addBookmark(item));
       items.forEach((item) => item.expanded = false);
       bookmarksPage.render();
