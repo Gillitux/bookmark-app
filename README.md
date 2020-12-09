@@ -1,5 +1,5 @@
 # Bookmark App
-[Live Github](https://gillitux.github.io/bookmark-app/dist "Live Page")
+[Live Github](https://thinkful-ei-unicorn.github.io/tucker-gilligan-bookmarks-app/dist "Live Page")
 
 Demonstrates functionality of adding and removing bookmarks utilizing an API and a local database.
 
