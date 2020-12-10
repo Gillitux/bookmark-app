@@ -55,7 +55,7 @@ fieldset{
 }
 
 
-.condensed h2{
+.bookmarkItem h2{
   margin: auto;
   width: 80%;
 }
@@ -64,17 +64,9 @@ fieldset{
   align-self: center;
 }
 
-.expandButton{
-  margin: 10px 0 10px 0;
-
-}
 
 .expanded{
   margin-top: 10px;
-}
-.deleteButton{
-  text-align: center;
-  margin-bottom: 10px;
 }
 
 .delete{
@@ -88,6 +80,7 @@ fieldset{
 a{
   margin-top: 10px;
 }
+
 .formButtons{
   display: flex;
   justify-content: space-around;

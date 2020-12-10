@@ -8,21 +8,17 @@ function render() {
   if (store.store.adding) {
     html = generateMain([...store.store.bookmarks]);
     headerHtml = generateNewBookmarkForm();
-    renderError();
   } else if (store.store.filter !== null) {
     const filteredBookmarks = [...store.store.bookmarks].filter(bmk => bmk.rating >= parseInt(store.store.filter))
     html = generateMain(filteredBookmarks);
     headerHtml = generateHeader();
-    renderError();
   }
   else {
     html = generateMain([...store.store.bookmarks]);
     headerHtml = generateHeader();
-    renderError();
   }
   $('header').html(headerHtml);
   $('main').html(html);
-  renderError();
 }
 
 $.fn.extend({
@@ -34,7 +30,7 @@ $.fn.extend({
   }
 });
 
-const renderError = function () {
+const headerError = function () {
   if (store.store.error) {
     const e = generateError(store.store.error);
     $('.error-message').html(e);
@@ -42,6 +38,15 @@ const renderError = function () {
     $('.error-message').empty();
   }
 };
+
+const mainError = function () {
+  if (store.store.error) {
+    const e = generateError(store.store.error)
+    $('.bookmarkError').html(e);
+  } else {
+    $('.bookmarkError').empty();
+  }
+}
 
 /*================generate page functions================*/
 function generateMain(myStore) {
@@ -52,83 +57,74 @@ function generateMain(myStore) {
 
 function generateBookmarks(item) {
   return `
-  <div class="condensed" data-item-id="${item.id}">
-    <form class = "deleteButton">
-      <button class="delete" type="button">Remove Bookmark</button>
-    </form>
+  <div class="bookmarkItem" data-item-id="${item.id}">
+    <button class="delete" type="button">Remove Bookmark</button>
     <h2>${item.title}</h2>
     <div class="${item.expanded ? 'expanded' : 'hidden'}">
-    <a href="${item.url}"  target="_blank">visit this page</a>
-    <p>${item.desc}</p>
+        <a href="${item.url}"  target="_blank">visit this page</a>
+        <p>${item.desc}</p>
     </div>
     <span>${item.rating}</span>
-
-    <form class="expandButton">
     <button class="expand" type="button">
     ${!item.expanded ? 'Show details' : 'Show less'}
     </button>
-    </form>
-
+    <div class="bookmarkError"></div>
   </div>
-  
   <hr>`;
 }
 
-function generateHeader() {
+function generateHeader(filter) {
   return `
   <h1>My Bookmarks</h1>
+
   <div class="pageOptions">
-    <label for="filter">
+
+    <label for="filter">Choose a rating</label>
     <select name="filter" id="filter" class="filter">
-    <option>Filter</option>
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="4">4</option>
-    <option value="5">5</option>
-    </select>
-    </label>
-
-      <form class="newBookmark">
-      <button class="createNew" type="button">Create New Bookmark</button>
-      </form>
-      </div>`;
-}
-
-function generateNewBookmarkForm() {
-  return `
-
-    <div class="addBookmark">
-      <form id="newBookmark">
-      <fieldset> 
-      <legend>New Bookmark</legend>
-      <br>
-      <div class="error-message"></div>
-      <label for="title">Title:</label>
-      <input type="text"  class="title" name="title" required/>
-      <label for="newUrl">URL:</label>
-      <input type="url"  class="newUrl" name="newUrl"  placeholder="https://" required/>
-      <label for="description">Description:</label>
-      <input type="text"  class="description" name="description"/>
-      <br>
-
-      <label>
-      <select name="rating" id="rating" class="rating">
-      <option>Bookmark Rating</option>
+      <option value=${store.store.filter}>${store.store.filter === 0 ? `Filter by Rating` : store.store.filter}</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
       <option value="4">4</option>
       <option value="5">5</option>
-      </select>
-      </label>
-      <br>
-      <section class="formButtons">
-      <button type="submit" class="cancel">Cancel</button>
-      <input type="submit" class="submitNew"/>
-      </section>
-      </legend>
-      </fieldset>
+    </select>
+
+      <button class="createNew" type="button">Create New Bookmark</button>
+  </div>`;
+}
+
+function generateNewBookmarkForm() {
+  return `
+    <div class="addBookmark">
+      <form id="newBookmark">
+        <fieldset> 
+          <legend>New Bookmark</legend>
+            <br>
+            <label for="title">Title:</label>
+            <input type="text"  class="title" name="title" required/>
+            <label for="newUrl">URL:</label>
+            <input type="url"  class="newUrl" name="newUrl"  placeholder="https://" required/>
+            <label for="description">Description:</label>
+            <input type="text"  class="description" name="description"/>
+            <br>
+            <label for="rating">Bookmark Rating</label>
+            <select name="rating" class="rating">
+              <option>Select rating....</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+            <br>
+            <div class="error-message">
+            </div>
+            <div class="formButtons">
+              <button type="submit" class="cancel">Cancel</button>
+              <input type="submit" class="submitNew"/>
+            </div>
+          </legend>
+        </fieldset>
       </form>
   
     </div>`
@@ -141,6 +137,7 @@ const generateError = function (message) {
         </section>
       `;
 };
+
 
 /*================event handlers================*/
 
@@ -162,7 +159,7 @@ function handleSubmitNewBookmark() {
       .then(response => {
         if (response.message) {
           store.setError(error.message);
-          renderError();
+          headerError();
         }
         else {
           store.setError(null)
@@ -173,14 +170,14 @@ function handleSubmitNewBookmark() {
       })
       .catch((error) => {
         store.setError(error.message)
-        render();
+        headerError();
       });
   })
 }
 
 const getItemIdFromElement = function (item) {
   return $(item)
-    .closest('.condensed')
+    .closest('.bookmarkitem')
     .data('item-id')
 }
 
@@ -194,7 +191,7 @@ function handleDeleteBookmark() {
       })
       .catch((error) => {
         store.setError(error.message);
-        renderError();
+        mainError();
       });
   });
 };
@@ -222,7 +219,6 @@ function handleFilter() {
     store.store.filter = filter;
     render();
     $('#filter').val(store.store.filter)
-
   })
 }
 
