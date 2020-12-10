@@ -74,14 +74,15 @@ function generateBookmarks(item) {
 }
 
 function generateHeader(filter) {
+
   return `
   <h1>My Bookmarks</h1>
 
   <div class="pageOptions">
 
-    <label for="filter">Choose a rating</label>
+    <label for="filter">Filter by rating</label>
     <select name="filter" id="filter" class="filter">
-      <option value=${store.store.filter}>${store.store.filter === 0 ? `Filter by Rating` : store.store.filter}</option>
+      <option value=0>Choose Rating</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -99,14 +100,12 @@ function generateNewBookmarkForm() {
       <form id="newBookmark">
         <fieldset> 
           <legend>New Bookmark</legend>
-            <br>
             <label for="title">Title:</label>
             <input type="text"  class="title" name="title" required/>
             <label for="newUrl">URL:</label>
             <input type="url"  class="newUrl" name="newUrl"  placeholder="https://" required/>
             <label for="description">Description:</label>
             <input type="text"  class="description" name="description"/>
-            <br>
             <label for="rating">Bookmark Rating</label>
             <select name="rating" class="rating">
               <option>Select rating....</option>
@@ -116,7 +115,6 @@ function generateNewBookmarkForm() {
               <option value="4">4</option>
               <option value="5">5</option>
             </select>
-            <br>
             <div class="error-message">
             </div>
             <div class="formButtons">
