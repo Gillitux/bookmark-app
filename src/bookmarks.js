@@ -177,7 +177,7 @@ function handleSubmitNewBookmark() {
 
 const getItemIdFromElement = function (item) {
   return $(item)
-    .closest('.bookmarkitem')
+    .closest('.bookmarkItem')
     .data('item-id')
 }
 
