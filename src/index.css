@@ -2,7 +2,6 @@
 
 body{
   font-family: 'Tillana', cursive;
-  font-size: 150%;
 }
 
 .error-content{
@@ -93,6 +92,11 @@ label[for=filter]{
 
 .filter{
   margin-bottom: 10px;
+  
+}
+
+select{
+  text-align-last: center;
 }
 
 /*===Main Styling===*/
@@ -141,6 +145,27 @@ a{
   display: none;
 }
 
+ul{
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  padding: 10px;
+  font-size: 120%;
+}
+
+li{
+  padding: 10px;
+  border-bottom: solid 2px;
+  width: 50%
+}
+
+li:first-child{
+  border-top: solid 2px;
+}
+
 
 @media all and (min-width: 600px){
 header{
@@ -151,8 +176,7 @@ main{
 }
 fieldset{
   margin: 0;
-  width: 500px;
+  width: 400px;
 }
-
 
 }

@@ -51,12 +51,13 @@ const mainError = function () {
 /*================generate page functions================*/
 function generateMain(myStore) {
   const newStore = myStore.map(bookmark =>
-    generateBookmarks(bookmark))
-  return newStore.join('');
+    generateBookmark(bookmark))
+  return `<ul>${newStore.join('')}</ul>`;
 }
 
-function generateBookmarks(item) {
+function generateBookmark(item) {
   return `
+  <li>
   <div class="bookmarkItem" data-item-id="${item.id}">
     <button class="delete" type="button">Remove Bookmark</button>
     <h2>${item.title}</h2>
@@ -70,7 +71,8 @@ function generateBookmarks(item) {
     </button>
     <div class="bookmarkError"></div>
   </div>
-  <hr>`;
+  </li>
+  `;
 }
 
 function generateHeader(filter) {
@@ -101,13 +103,13 @@ function generateNewBookmarkForm() {
         <fieldset> 
           <legend>New Bookmark</legend>
             <label for="title">Title:</label>
-            <input type="text"  class="title" name="title" required/>
+            <input type="text"  class="title" id="title" name="title" required/>
             <label for="newUrl">URL:</label>
-            <input type="url"  class="newUrl" name="newUrl"  placeholder="https://" required/>
+            <input type="url" class="newUrl" id="newUrl"  name="newUrl"  placeholder="https://" required/>
             <label for="description">Description:</label>
-            <input type="text"  class="description" name="description"/>
+            <input type="text"  class="description" id="description" name="description"/>
             <label for="rating">Bookmark Rating</label>
-            <select name="rating" class="rating">
+            <select name="rating" class="rating"  id="rating">
               <option>Select rating....</option>
               <option value="1">1</option>
               <option value="2">2</option>
