@@ -84,7 +84,7 @@ function generateHeader(filter) {
 
     <label for="filter">Filter by rating</label>
     <select name="filter" id="filter" class="filter">
-      <option value=0>Choose Rating</option>
+      <option value=${store.store.filter}>${store.store.filter !== 0 ? store.store.filter : 'Choose Rating'}</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -218,7 +218,6 @@ function handleFilter() {
     let filter = $('.filter option:selected').val();
     store.store.filter = filter;
     render();
-    $('#filter').val(store.store.filter)
   })
 }
 
